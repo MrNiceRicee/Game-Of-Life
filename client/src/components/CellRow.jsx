@@ -3,11 +3,11 @@ import React from 'react';
 import PropTypes from 'prop-types'; // ES6
 import Cell from './Cell';
 
-const CellRow = ({ Cells, Row }) => {
+const CellRow = ({ Cells }) => {
   const generateCol = () => {
     const cols = [];
     for (let i = 0; i < Cells.length; i += 1) {
-      cols.push(<Cell key={`Col${i}`} Row={Row} Col={i} />);
+      cols.push(<Cell key={`Col${i}`} CellAlive={Cells[i].alive} CellNeighbors={Cells[i].neighbors} CellPosition={Cells[i].position} />);
     }
     return cols;
   };
@@ -20,8 +20,7 @@ const CellRow = ({ Cells, Row }) => {
 
 CellRow.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
-  Cells: PropTypes.bool.isRequired,
-  Row: PropTypes.number.isRequired,
+  Cells: PropTypes.array.isRequired,
 };
 
 export default CellRow;
