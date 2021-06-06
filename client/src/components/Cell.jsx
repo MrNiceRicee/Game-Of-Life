@@ -1,19 +1,22 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable import/no-unresolved */
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Cell = ({ CellAlive }) => {
+const Cell = ({ CellAlive, toggleCellStatus, CellPosition }) => {
   const buttonClick = () => {
     // do stuff
+    toggleCellStatus(CellPosition);
   };
   return (
-    <button type="button" onClick={buttonClick} onKeyDown={buttonClick} aria-label="cell" className={CellAlive ? 'cell cell-alive' : 'cell'} />
+    <button type="button" onClick={buttonClick} aria-label="cell" className={CellAlive ? 'cell bg-light' : 'cell'} />
   );
 };
 
 Cell.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
   CellAlive: PropTypes.bool.isRequired,
+  toggleCellStatus: PropTypes.object.isRequired,
+  CellPosition: PropTypes.string.isRequired,
 };
 
 export default Cell;

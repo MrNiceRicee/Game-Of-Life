@@ -2,6 +2,7 @@
 $primary-color: #63EAF4;
 
 $shell-white: #F2F2ED;
+$shell-white-muted: #f2f2ed70;
 $midnight-blue: #181D29;
 
 * {
@@ -24,12 +25,22 @@ button {
   padding-right: 1rem;
   border-width: 1px;
   border-style: solid;
+  border-radius: .2rem;
+  &:hover {
+    filter: brightness(125%);
+  }
+  &:active {
+    filter: brightness(80%);
+  }
 }
 .btn-block {
   display: inline-block;
   width: 100%;
 }
-
+.btn-thicc {
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+}
 .cell{
   min-height: 2rem;
   min-width: 2rem;
@@ -37,6 +48,7 @@ button {
   max-width: 2rem;
   border-width: 1px;
   border-style: solid;
+  color: $shell-white-muted;
   transition: all .3s ease-in-out;
 }
 
@@ -51,12 +63,12 @@ button {
   }
 }
 
-.cell-alive{
-  background-color: $shell-white;
+.text-dark {
+  color: $midnight-blue;
 }
 
-.cell-dead{
-  background-color: transparent;
+.bg-light{
+  background-color: $shell-white;
 }
 
 .d-flex {

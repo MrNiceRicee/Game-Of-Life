@@ -1,13 +1,14 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable import/no-unresolved */
 import React from 'react';
 import PropTypes from 'prop-types'; // ES6
 import Cell from './Cell';
 
-const CellRow = ({ Cells }) => {
+const CellRow = ({ Cells, toggleCellStatus }) => {
   const generateCol = () => {
     const cols = [];
     for (let i = 0; i < Cells.length; i += 1) {
-      cols.push(<Cell key={`Col${i}`} CellAlive={Cells[i].alive} CellNeighbors={Cells[i].neighbors} CellPosition={Cells[i].position} />);
+      cols.push(<Cell key={`Col${i}`} CellAlive={Cells[i].alive} CellNeighbors={Cells[i].neighbors} CellPosition={Cells[i].position} toggleCellStatus={toggleCellStatus} />);
     }
     return cols;
   };
@@ -19,8 +20,8 @@ const CellRow = ({ Cells }) => {
 };
 
 CellRow.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
   Cells: PropTypes.array.isRequired,
+  toggleCellStatus: PropTypes.object.isRequired,
 };
 
 export default CellRow;
