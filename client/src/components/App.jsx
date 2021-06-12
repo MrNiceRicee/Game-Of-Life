@@ -6,10 +6,12 @@ import Cell from './CellClass';
 const App = () => {
   const [board, setBoard] = useState([]);
   const [gameStatus, setGameStatus] = useState(false);
-  const rowSize = 20;
-  const colSize = 20;
+  const [currentGen, setCurrentGen] = useState(0);
+  const [speed, setSpeed] = useState(300);
+  // eslint-disable-next-line no-unused-vars
+  const [boundaries, setBoundaries] = useState({ x: 50, y: 50 });
 
-  useEffect(() => {
+  const createBoard = (rowSize, colSize) => {
     const newBoard = [];
     for (let row = 0; row < rowSize; row += 1) {
       newBoard.push([]);
@@ -20,12 +22,15 @@ const App = () => {
       }
     }
     setBoard(newBoard);
+  };
+
+  useEffect(() => {
+    createBoard(boundaries.x, boundaries.y);
   }, []);
 
-  // simple toggle of the on and off switch
-  const toggleGameStatus = () => {
-    setGameStatus(!gameStatus);
-  };
+  useEffect(() => {
+    createBoard(boundaries.x, boundaries.y);
+  }, [boundaries]);
 
   // simple toggle for the indivitual cells
   const toggleCellStatus = (location) => {
@@ -38,6 +43,69 @@ const App = () => {
     setBoard(newBoard);
   };
 
+  const detectBoundry = (x, y) => (x >= 0 && x < boundaries.x && y >= 0 && y < boundaries.y);
+
+  const detectAliveNeighbors = (location) => {
+    const ids = location.split(',');
+    const neighborLocations = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0],
+      [1, 1]];
+    let aliveNeighbors = 0;
+    neighborLocations.forEach((loc) => {
+      const newx = Math.floor(ids[0] - loc[0]);
+      const newy = Math.floor(ids[1] - loc[1]);
+      if (detectBoundry(newx, newy) && board[newx][newy].alive) {
+        aliveNeighbors += 1;
+      }
+    });
+    return aliveNeighbors;
+  };
+
+  const scanBoard = () => {
+    const newBoard = [...board];
+    for (let i = 0; i < newBoard.length; i += 1) {
+      for (let j = 0; j < newBoard.length; j += 1) {
+        newBoard[i][j].neighbors = detectAliveNeighbors(newBoard[i][j].position);
+      }
+    }
+    return newBoard;
+  };
+
+  const nextGeneration = (currentBoard) => {
+    const newBoard = currentBoard;
+    for (let i = 0; i < newBoard.length; i += 1) {
+      for (let j = 0; j < newBoard.length; j += 1) {
+        if (!newBoard[i][j].alive) {
+          if (newBoard[i][j].neighbors === 3) {
+            newBoard[i][j].alive = true;
+          }
+        } else if (newBoard[i][j].neighbors < 2 || newBoard[i][j].neighbors > 3) {
+          newBoard[i][j].alive = false;
+        }
+      }
+    }
+    setBoard(newBoard);
+    setCurrentGen(currentGen + 1);
+  };
+
+  const nextStep = () => {
+    const newBoard = scanBoard();
+    nextGeneration(newBoard);
+  };
+
+  // simple toggle of the on and off switch
+  const toggleGameStatus = () => {
+    if (!gameStatus === true) {
+      nextStep();
+    }
+    setGameStatus(!gameStatus);
+  };
+
+  useEffect(() => {
+    if (gameStatus) {
+      setTimeout(nextStep, speed);
+    }
+  }, [board]);
+
   // create the first initial rows
   const runRows = () => {
     const rows = [];
@@ -48,10 +116,39 @@ const App = () => {
   };
 
   return (
-    <div style={{ width: 'max-content', textAlign: 'center' }}>
+    <div className="text-center">
       <h3>Game of Life!</h3>
-      <button type="button" className={`btn btn-block btn-thicc ${gameStatus ? 'bg-light text-dark' : ''} `} onClick={toggleGameStatus}>{gameStatus ? 'Pause' : 'Start'}</button>
-      {runRows()}
+      <span>Set Speed</span>
+      <input
+        id="Speed"
+        type="number"
+        value={speed}
+        onChange={(event) => {
+          setSpeed(event.target.value);
+        }}
+      />
+      <button
+        type="button"
+        className={`btn btn-thicc ${gameStatus ? 'bg-light text-dark' : ''} `}
+        onClick={() => {
+          setGameStatus(false);
+          setCurrentGen(0);
+          createBoard(boundaries.x, boundaries.y);
+        }}
+      >
+        Reset Field
+      </button>
+      <p>{`Current Generation ${currentGen}`}</p>
+      <div className="game-container">
+        <button
+          type="button"
+          className={`btn btn-block btn-thicc ${gameStatus ? 'bg-light text-dark' : ''} `}
+          onClick={toggleGameStatus}
+        >
+          {gameStatus ? 'Pause' : 'Start'}
+        </button>
+        {runRows()}
+      </div>
     </div>
   );
 };

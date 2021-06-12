@@ -42,14 +42,13 @@ button {
   padding-bottom: .5rem;
 }
 .cell{
-  min-height: 2rem;
-  min-width: 2rem;
   max-height: 2rem;
   max-width: 2rem;
+  padding: 10px;
   border-width: 1px;
   border-style: solid;
   color: $shell-white-muted;
-  transition: all .3s ease-in-out;
+  transition: all .1s ease-in-out;
 }
 
 .cell{
@@ -66,6 +65,9 @@ button {
 .text-dark {
   color: $midnight-blue;
 }
+.text-center {
+  text-align: center;
+}
 
 .bg-light{
   background-color: $shell-white;
@@ -73,4 +75,11 @@ button {
 
 .d-flex {
   display: flex;
+}
+
+.game-container {
+  width: max-content;
+  margin-top: 2em;
+  margin-left: auto;
+  margin-right: auto;
 }

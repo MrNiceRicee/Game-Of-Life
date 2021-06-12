@@ -21,7 +21,7 @@ const CellRow = ({ Cells, toggleCellStatus }) => {
 
 CellRow.propTypes = {
   Cells: PropTypes.array.isRequired,
-  toggleCellStatus: PropTypes.object.isRequired,
+  toggleCellStatus: PropTypes.func.isRequired,
 };
 
 export default CellRow;

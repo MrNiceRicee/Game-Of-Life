@@ -15,7 +15,7 @@ const Cell = ({ CellAlive, toggleCellStatus, CellPosition }) => {
 
 Cell.propTypes = {
   CellAlive: PropTypes.bool.isRequired,
-  toggleCellStatus: PropTypes.object.isRequired,
+  toggleCellStatus: PropTypes.func.isRequired,
   CellPosition: PropTypes.string.isRequired,
 };
 
