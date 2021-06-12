@@ -13,6 +13,10 @@ $midnight-blue: #181D29;
   color: $shell-white;
 }
 
+p {
+  margin-top: .5em;
+}
+
 button {
   outline: none;
   border: none;
@@ -79,7 +83,23 @@ button {
 
 .game-container {
   width: max-content;
-  margin-top: 2em;
+  margin-top: 1em;
   margin-left: auto;
   margin-right: auto;
+}
+
+.user-input {
+  margin-bottom: 1em;
+  border: none;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: transparent;
+  outline: none;
+  padding-left: 1em;
+  padding-right: 1em;
+  position: relative;
+  &:focus, &:active, &:hover {
+    border-bottom-color: $shell-white;
+
+  }
 }

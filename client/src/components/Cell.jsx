@@ -9,7 +9,12 @@ const Cell = ({ CellAlive, toggleCellStatus, CellPosition }) => {
     toggleCellStatus(CellPosition);
   };
   return (
-    <button type="button" onClick={buttonClick} aria-label="cell" className={CellAlive ? 'cell bg-light' : 'cell'} />
+    <button
+      type="button"
+      onClick={buttonClick}
+      aria-label="cell"
+      className={CellAlive ? 'cell bg-light' : 'cell'}
+    />
   );
 };
 

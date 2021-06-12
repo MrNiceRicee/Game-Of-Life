@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable import/no-unresolved */
 import React, { useState, useEffect } from 'react';
+import regeneratorRuntime from 'regenerator-runtime';
 import CellRow from './CellRow';
 import Cell from './CellClass';
 
@@ -7,7 +9,7 @@ const App = () => {
   const [board, setBoard] = useState([]);
   const [gameStatus, setGameStatus] = useState(false);
   const [currentGen, setCurrentGen] = useState(0);
-  const [speed, setSpeed] = useState(300);
+  const [speed, setSpeed] = useState(200);
   // eslint-disable-next-line no-unused-vars
   const [boundaries, setBoundaries] = useState({ x: 50, y: 50 });
 
@@ -123,27 +125,33 @@ const App = () => {
         id="Speed"
         type="number"
         value={speed}
+        className="user-input"
         onChange={(event) => {
           setSpeed(event.target.value);
         }}
       />
-      <button
-        type="button"
-        className={`btn btn-thicc ${gameStatus ? 'bg-light text-dark' : ''} `}
-        onClick={() => {
-          setGameStatus(false);
-          setCurrentGen(0);
-          createBoard(boundaries.x, boundaries.y);
-        }}
-      >
-        Reset Field
-      </button>
+      <div>
+        <button
+          type="button"
+          className={`btn btn-thicc ${gameStatus ? 'bg-light text-dark' : ''} `}
+          onClick={async () => {
+            await setGameStatus(false);
+            setTimeout(() => {
+              setCurrentGen(0);
+              createBoard(boundaries.x, boundaries.y);
+            }, speed * 1.5);
+          }}
+        >
+          Reset Field
+        </button>
+      </div>
       <p>{`Current Generation ${currentGen}`}</p>
       <div className="game-container">
         <button
           type="button"
           className={`btn btn-block btn-thicc ${gameStatus ? 'bg-light text-dark' : ''} `}
           onClick={toggleGameStatus}
+
         >
           {gameStatus ? 'Pause' : 'Start'}
         </button>
